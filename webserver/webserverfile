@@ -1,0 +1,49 @@
+# install apache
+
+ yum install httpd
+ firewall-cmd --permanent --add-service=http
+ firewall-cmd --permanent --add-service=https
+ firewall-cmd --reload
+ systemctl start httpd
+ systemctl status httpd
+
+# mo port cac dich vu
+
+ yum install firewalld
+ firewall-cmd --zone=public --add-port=80/tcp --permanent
+ firewall-cmd --zone=public --add-port=443/tcp --permanent
+ firewall-cmd --zone=public --add-port=3306/tcp --permanent
+ firewall-cmd --zone=public --add-port=1433/tcp --permanent
+ firewall-cmd --reload
+
+# install php
+
+ yum install http://rpms.remirepo.net/enterprise/remi-release-7.rpm
+ yum --enablerepo=remi-php72 install php
+ yum --enablerepo=remi-php72 install php-xml php-soap php-xmlrpc php-mbstring php-json php-gd php-mcrypt
+ yum --enablerepo=remi-php72 search php | grep php72
+ yum-config-manager --enable remi-php72
+
+# install mysql
+
+ yum install wget
+ rpm -Uvh https://repo.mysql.com/mysql80-community-release-el7-3.noarch.rpm
+ sed -i 's/enabled=1/enabled=0/' /etc/yum.repos.d/mysql-community.repo
+ yum --enablerepo=mysql80-community install mysql-community-server
+ yum install mysql
+ wget https://repo.mysql.com/mysql80-community-release-el7-3.noarch.rpm
+ yum localinstall mysql80-community-release-el7-3.noarch.rpm
+ service mysqld start
+ service mysqld status
+ grep 'temporary password' /var/log/mysqld.log
+ mysql_secure_installation
+ mysql -u root -p
+
+# install phpmyadmin
+
+ yum install yum-utils
+ yum install php-pecl-zip
+ yum install epel-release
+ yum install phpmyadmin
+ vi  /etc/httpd/conf.d/phpmyadmin.conf
+ systemctl restart httpd
