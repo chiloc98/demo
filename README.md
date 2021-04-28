@@ -1,1 +1,1 @@
-# demo
+# install
